@@ -19,64 +19,6 @@ general:
 
 jobs:
 
-  chrome:  
-    docker:
-      - image: cimg/openjdk:17.0.3-browsers
-    working_directory : ~/ci_app/QA_Automation
-
-    steps:
-      - checkout:
-          path: ~/ci_app/QA_Automation
-      - browser-tools/install-browser-tools
-      - run:
-          command: |
-            google-chrome --version
-          name: Check install
-      - run:
-          name: Changing directory, Creating test folder
-          command: |
-            cd QA_Automation 
-            #mkdir test-reports
-      #- run: mkdir test-reports
-      - run:
-          name: The Second Step
-          command: |
-            cd QA_Automation
-            ls -al
-            echo '^^^The files in your repo^^^'
-      # run tests!!
-      - run:
-          name: mvn clean install
-          command: |
-            cd QA_Automation
-            mvn clean test
-      - run:
-          name: Save test results
-          command: |
-            cd QA_Automation
-            mkdir -p testng/results/
-            find . -type f -regex "./TestReport/Test-Automaton-Report.html" -exec cp {} ~/ci_app/QA_Automation/QA_Automation/testng/results/ \;
-            find . -type f -regex "./test-output/emailable-report.html" -exec cp {} ~/ci_app/QA_Automation/QA_Automation/testng/results/ \;
-            find . -type f -regex "./test-output/testng-results.xml" -exec cp {} ~/ci_app/QA_Automation/QA_Automation/testng/results/ \;
-            cd testng/results
-            ls -al
-            pwd -P
-#       - store_test_results:
-#           path: QA_Automation/test-output
-      - store_artifacts:
-          path: QA_Automation/testng/results
-  #    - slack/notify:
-  #        event: pass
-  #        template: basic_success_1
-
-  code_scan:
-    working_directory: ~/ci_app
-    docker:
-      - image: 'circleci/python:3.7.4'
-    steps:
-    - checkout
-    - sonarcloud/scan
-
   build:
     machine:
       image: ubuntu-2004:202201-02
@@ -149,9 +91,4 @@ jobs:
 workflows:
   ci-cd-workflow:
     jobs:
-      - chrome
-      - code_scan:
-          context: sonarcloud
-      - build:
-          requires:
-            - code_scan
+      - build
