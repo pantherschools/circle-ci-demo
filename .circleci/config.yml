@@ -1,0 +1,157 @@
+version: 2.1
+
+orbs:
+  sonarcloud: sonarsource/sonarcloud@1.1.0 # SonarCloud Orbs
+  maven: circleci/maven@1.3.0
+  browser-tools: circleci/browser-tools@1.1.3
+  slack: circleci/slack@4.10.1
+
+general:
+# comment the following if you do not wanted to specify any branches
+  branches:
+    only:
+      - dev # specific branch
+      - master
+      - qa
+      - release
+      - hotfix
+      - /dev-.*/ # or regexes
+
+jobs:
+
+  chrome:  
+    docker:
+      - image: cimg/openjdk:17.0.3-browsers
+    working_directory : ~/ci_app/QA_Automation
+
+    steps:
+      - checkout:
+          path: ~/ci_app/QA_Automation
+      - browser-tools/install-browser-tools
+      - run:
+          command: |
+            google-chrome --version
+          name: Check install
+      - run:
+          name: Changing directory, Creating test folder
+          command: |
+            cd QA_Automation 
+            #mkdir test-reports
+      #- run: mkdir test-reports
+      - run:
+          name: The Second Step
+          command: |
+            cd QA_Automation
+            ls -al
+            echo '^^^The files in your repo^^^'
+      # run tests!!
+      - run:
+          name: mvn clean install
+          command: |
+            cd QA_Automation
+            mvn clean test
+      - run:
+          name: Save test results
+          command: |
+            cd QA_Automation
+            mkdir -p testng/results/
+            find . -type f -regex "./TestReport/Test-Automaton-Report.html" -exec cp {} ~/ci_app/QA_Automation/QA_Automation/testng/results/ \;
+            find . -type f -regex "./test-output/emailable-report.html" -exec cp {} ~/ci_app/QA_Automation/QA_Automation/testng/results/ \;
+            find . -type f -regex "./test-output/testng-results.xml" -exec cp {} ~/ci_app/QA_Automation/QA_Automation/testng/results/ \;
+            cd testng/results
+            ls -al
+            pwd -P
+#       - store_test_results:
+#           path: QA_Automation/test-output
+      - store_artifacts:
+          path: QA_Automation/testng/results
+  #    - slack/notify:
+  #        event: pass
+  #        template: basic_success_1
+
+  code_scan:
+    working_directory: ~/ci_app
+    docker:
+      - image: 'circleci/python:3.7.4'
+    steps:
+    - checkout
+    - sonarcloud/scan
+
+  build:
+    machine:
+      image: ubuntu-2004:202201-02
+    working_directory: ~/ci_app
+    environment:
+      # From https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli_standalone.htm
+      - DX_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
+    steps:
+      - checkout
+      - run:
+          name: Download SFDX CLI
+          command: |
+            mkdir sfdx
+            wget -qO- $DX_CLI_URL | tar xJ -C sfdx --strip-components 1
+      - run:
+          name: Install SFDX CLI
+          command: |
+            ./sfdx/install
+            sfdx
+            mkdir tmp
+      - run:
+          name: Setup SFDC Org
+          command: |
+            sfdx force:auth:jwt:grant --clientid $HUB_CONSUMER_KEY --jwtkeyfile ~/ci_app/assets/server.key --username $HUB_SFDC_USER --setdefaultdevhubusername -a hub
+            sfdx force --help
+      - run:
+          name: Create Scratch Org
+          command: |
+            sfdx force:org:create -s -f ~/ci_app/config/project-scratch-def.json -a circle_build_$CIRCLE_BUILD_NUM --wait 10
+      - run:
+          name: Push Metadta to Scratch Org
+          command: |
+            sfdx force:source:push -u circle_build_$CIRCLE_BUILD_NUM
+      - run:
+          name: Open the Scratch Scratch Org
+          command: |
+            sfdx force:org:open -u circle_build_$CIRCLE_BUILD_NUM
+
+      - run:
+          name: Assign the Permission Set to User
+          command: |
+            sfdx force:user:permset:assign -n yeurdreamin -u circle_build_$CIRCLE_BUILD_NUM --json
+
+      - run:
+          name: Import the data to Scratch Org
+          command: |
+            sfdx force:data:tree:import --plan ~/ci_app/data/data-plan.json -u circle_build_$CIRCLE_BUILD_NUM --json
+      - run:
+          name: Run Apex Tests
+          command: |
+            echo 'Running tests'
+            mkdir -p ~/junit
+            sfdx force:apex:test:run --testlevel RunLocalTests
+      - store_test_results:
+          path: ~/junit
+      - run:
+          name: Delete Useless Scratch Org
+          command: |
+            sfdx force:org:delete -u circle_build_$CIRCLE_BUILD_NUM -p
+
+      - run:
+          name: Create Package Version
+          command: |
+            #Create package version
+            PACKAGEVERSION="$(sfdx force:package:version:create --package "quickbooksonline" --installationkeybypass --wait 10 --json --targetdevhubusername HubOrg | jq '.result.SubscriberPackageVersionId' | tr -d '"')"
+            echo 'PackageVersionId - ' ${PACKAGEVERSION}
+            # Store PackageVersionId to be used in future step
+            echo $PACKAGEVERSION > /tmp/packageversion.txt
+
+workflows:
+  ci-cd-workflow:
+    jobs:
+      - chrome
+      - code_scan:
+          context: sonarcloud
+      - build:
+          requires:
+            - code_scan

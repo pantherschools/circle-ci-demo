@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>QBCompanyId</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>QBCompanyId</shortDescription>
+        <value>4620816365233047200</value>
+    </labels>
+    <labels>
+        <fullName>QBMinorversion</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>QBMinorversion</shortDescription>
+        <value>63</value>
+    </labels>
+    <labels>
+        <fullName>QBNamedCredentials</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>QBNamedCredentials</shortDescription>
+        <value>MyQuickBooks</value>
+    </labels>
+</CustomLabels>

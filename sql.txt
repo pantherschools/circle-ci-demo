@@ -1,0 +1,1 @@
+sfdx force:data:soql:query -q "SELECT Id, Name, Rating, Phone, Industry FROM Account LIMIT 10" -u="b2b" -r=csv > results.csv 

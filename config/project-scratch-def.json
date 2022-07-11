@@ -1,0 +1,28 @@
+{
+  "orgName": "Salesforce.com",
+  "edition": "Enterprise",
+  "features": [
+        "Communities", 
+        "ServiceCloud", 
+        "Chatbot", 
+        "MultiCurrency" ,
+        "CascadeDelete",
+        "Knowledge",
+        "Sites",
+        "Communities",
+        "PersonAccounts",
+        "ForceComPlatform",
+        "StateAndCountryPicklist",
+        "Entitlements",
+        "IoT",
+        "LiveAgent"
+    ],
+  "settings": {
+      "omniChannelSettings": {
+          "enableOmniChannel": true
+      },
+      "caseSettings": {
+          "systemUserEmail": "sfdcpanther@outlook.com"
+      }
+  }
+}
