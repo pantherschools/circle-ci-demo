@@ -14,6 +14,10 @@
 		<name>AuthProvider</name>
 	</types>
 	<types>
+		<members>Contact.Picture__c</members>
+		<name>CustomField</name>
+	</types>
+	<types>
 		<members>QBCompanyId</members>
 		<members>QBMinorversion</members>
 		<members>QBNamedCredentials</members>
@@ -48,8 +52,13 @@
 		<name>PathAssistant</name>
 	</types>
 	<types>
+		<members>PictureField_on_ContactObject</members>
 		<members>System_Event_Permission_Set</members>
 		<name>PermissionSet</name>
+	</types>
+	<types>
+		<members>Scratch_Org_Demo</members>
+		<name>PermissionSetGroup</name>
 	</types>
 	<version>53.0</version>
 </Package>

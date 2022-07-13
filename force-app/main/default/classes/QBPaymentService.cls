@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : Amit Singh
  * @group             : 
- * @last modified on  : 07-08-2022
+ * @last modified on  : 07-11-2022
  * @last modified by  : Amit Singh
 **/
 public with sharing class QBPaymentService {
@@ -33,11 +33,13 @@ public with sharing class QBPaymentService {
 
         Map<String, Object> resonseMap = new Map<String, Object>();
         if (response.getStatusCode() == 200) {
-
+            resonseMap.put('status','SUCCESS');
+            QBPaymentReadWrapper paymentData = (QBPaymentReadWrapper)JSON.deserialize(responseBody, QBPaymentReadWrapper.class);
+            resonseMap.put('data', paymentData);
         }else{
             resonseMap.put('status','ERROR');
             Logger log = new Logger('Error occured While Creating Payment to QBO', 'QBPaymentService', 'Error', 'Apex');
-            log.logRecord.ExternalSystem__c = 'Stripe'; 
+            log.logRecord.ExternalSystem__c = 'QuickBooks';
             log.logRecord.ExternalReferenceCode__c = String.valueOf( response.getStatusCode() ); 
             log.logRecord.ExternalSystemResult__c = responseBody; 
             log.logRecord.ExternalSystemErrorCodes__c = 'https://developer.intuit.com/app/developer/qbo/docs/develop/troubleshooting/error-codes'; 
@@ -46,6 +48,13 @@ public with sharing class QBPaymentService {
         }
         return resonseMap;
     }
+
+    /**
+    * @description 
+    * @author Amit Singh | 07-11-2022 
+    * @param String body 
+    * @return Map<String, Object> 
+    **/
     public static Map<String, Object> deletePayment(String body){
         /*
             {
@@ -59,11 +68,12 @@ public with sharing class QBPaymentService {
         String responseBody = response.getBody();
         System.System.debug(responseBody);
         if (response.getStatusCode() == 200) {
-
+            resonseMap.put('status','SUCCESS');
+            resonseMap.put('data', 'Payment Deleted Successfully');
         }else{
             resonseMap.put('status','ERROR');
             Logger log = new Logger('Error occured While Deleting Payment from QBO', 'QBPaymentService', 'Error', 'Apex');
-            log.logRecord.ExternalSystem__c = 'Stripe'; 
+            log.logRecord.ExternalSystem__c = 'QuickBooks'; 
             log.logRecord.ExternalReferenceCode__c = String.valueOf( response.getStatusCode() ); 
             log.logRecord.ExternalSystemResult__c = responseBody; 
             log.logRecord.ExternalSystemErrorCodes__c = 'https://developer.intuit.com/app/developer/qbo/docs/develop/troubleshooting/error-codes'; 
@@ -73,6 +83,12 @@ public with sharing class QBPaymentService {
         return resonseMap;
     }
 
+    /**
+    * @description 
+    * @author Amit Singh | 07-11-2022 
+    * @param String body 
+    * @return Map<String, Object> 
+    **/
     public static Map<String, Object> voidPayment(String body){
         /*
             {
@@ -88,11 +104,11 @@ public with sharing class QBPaymentService {
         System.System.debug(responseBody);
         if (response.getStatusCode() == 200) {
             resonseMap.put('status','SUCCESS');
-            resonseMap.put('data','SUCCESS');
+            resonseMap.put('data','Payment Voided Successfully');
         }else{
             resonseMap.put('status','ERROR');
             Logger log = new Logger('Error occured While Voiding a Payment from QBO', 'QBPaymentService', 'Error', 'Apex');
-            log.logRecord.ExternalSystem__c = 'Stripe'; 
+            log.logRecord.ExternalSystem__c = 'QuickBooks'; 
             log.logRecord.ExternalReferenceCode__c = String.valueOf( response.getStatusCode() ); 
             log.logRecord.ExternalSystemResult__c = responseBody; 
             log.logRecord.ExternalSystemErrorCodes__c = 'https://developer.intuit.com/app/developer/qbo/docs/develop/troubleshooting/error-codes'; 
@@ -101,7 +117,13 @@ public with sharing class QBPaymentService {
         }
         return resonseMap;
     }
-    //QBPaymentService.readSinglePayment('146');
+
+    /**
+    * @description 
+    * @author Amit Singh | 07-11-2022 
+    * @param String paymentId 
+    * @return Map<String, Object> 
+    **/
     public static Map<String, Object> readSinglePayment(String paymentId){
         HttpRequest request = QBUtils.prepareRequest('GET', '/v3/company/'+System.Label.QBCompanyId+'/payment/'+paymentId+'?minorversion=63', null);
         HttpResponse response = (new Http()).send(request);
@@ -109,11 +131,13 @@ public with sharing class QBPaymentService {
         System.System.debug(responseBody);
         Map<String, Object> resonseMap = new Map<String, Object>();
         if (response.getStatusCode() == 200) {
-
+            resonseMap.put('status','SUCCESS');
+            QBPaymentReadWrapper paymentData = (QBPaymentReadWrapper)JSON.deserialize(responseBody, QBPaymentReadWrapper.class);
+            resonseMap.put('data', paymentData);
         }else{
             resonseMap.put('status','ERROR');
             Logger log = new Logger('Error occured While Reading Payment from QBO', 'QBPaymentService', 'Error', 'Apex');
-            log.logRecord.ExternalSystem__c = 'Stripe'; 
+            log.logRecord.ExternalSystem__c = 'QuickBooks'; 
             log.logRecord.ExternalReferenceCode__c = String.valueOf( response.getStatusCode() ); 
             log.logRecord.ExternalSystemResult__c = responseBody; 
             log.logRecord.ExternalSystemErrorCodes__c = 'https://developer.intuit.com/app/developer/qbo/docs/develop/troubleshooting/error-codes'; 
@@ -122,7 +146,13 @@ public with sharing class QBPaymentService {
         }
         return resonseMap;
     }
-    //QBPaymentService.getPaymentPDF('146');
+    
+    /**
+    * @description 
+    * @author Amit Singh | 07-11-2022 
+    * @param String paymentId 
+    * @return Map<String, Object> 
+    **/
     public static Map<String, Object> getPaymentPDF(String paymentId){
         HttpRequest request   = QBUtils.prepareRequest('GET', '/v3/company/'+System.Label.QBCompanyId+'/payment/'+paymentId+'/pdf?minorversion=63', null);
         HttpResponse response = (new Http()).send(request);
@@ -130,11 +160,12 @@ public with sharing class QBPaymentService {
         Map<String, Object> resonseMap = new Map<String, Object>();
         System.System.debug(response);
         if (response.getStatusCode() == 200) {
-
+            resonseMap.put('status','SUCCESS');
+            resonseMap.put('data', responseBody);
         }else{
             resonseMap.put('status','ERROR');
             Logger log = new Logger('Error occured While Reading Payment as PDF from QBO', 'QBPaymentService', 'Error', 'Apex');
-            log.logRecord.ExternalSystem__c = 'Stripe'; 
+            log.logRecord.ExternalSystem__c = 'QuickBooks'; 
             log.logRecord.ExternalReferenceCode__c = String.valueOf( response.getStatusCode() ); 
             log.logRecord.ExternalSystemResult__c = response.getBody(); 
             log.logRecord.ExternalSystemErrorCodes__c = 'https://developer.intuit.com/app/developer/qbo/docs/develop/troubleshooting/error-codes'; 
@@ -144,7 +175,13 @@ public with sharing class QBPaymentService {
         return resonseMap;
     }
     
-    //QBPaymentService.sendPayment('146','amitasinghsfdc@gmail.com');
+    /**
+    * @description 
+    * @author Amit Singh | 07-11-2022 
+    * @param String paymentId 
+    * @param String email 
+    * @return Map<String, Object> 
+    **/
     public static Map<String, Object> sendPayment(String paymentId, String email){
 
         Map<String, Object> resonseMap = new Map<String, Object>();
@@ -153,11 +190,12 @@ public with sharing class QBPaymentService {
         String responseBody = response.getBody();
         System.System.debug(responseBody);
         if (response.getStatusCode() == 200) {
-
+            resonseMap.put('status','SUCCESS');
+            resonseMap.put('data', 'SUCCESS');
         }else{
             resonseMap.put('status','ERROR');
             Logger log = new Logger('Error occured While Sending Payment from QBO', 'QBPaymentService', 'Error', 'Apex');
-            log.logRecord.ExternalSystem__c = 'Stripe'; 
+            log.logRecord.ExternalSystem__c = 'QuickBooks'; 
             log.logRecord.ExternalReferenceCode__c = String.valueOf( response.getStatusCode() ); 
             log.logRecord.ExternalSystemResult__c = responseBody; 
             log.logRecord.ExternalSystemErrorCodes__c = 'https://developer.intuit.com/app/developer/qbo/docs/develop/troubleshooting/error-codes'; 
@@ -166,6 +204,37 @@ public with sharing class QBPaymentService {
         }
         return resonseMap;
     }
+
+    /**
+    * @description 
+    * @author Amit Singh | 07-11-2022 
+    * @param String paymentId 
+    * @return Map<String, Object> 
+    **/
+    public static Map<String, Object> readPayment(String paymentId){
+
+        Map<String, Object> resonseMap = new Map<String, Object>();
+        HttpRequest request = QBUtils.prepareRequest('GET', '/v3/company/'+System.Label.QBCompanyId+'/payment/'+paymentId+'?minorversion=63', null);
+        HttpResponse response = (new Http()).send(request);
+        String responseBody = response.getBody();
+        System.System.debug(responseBody);
+        if (response.getStatusCode() == 200) {
+            resonseMap.put('status','SUCCESS');
+            QBPaymentReadWrapper paymentData = (QBPaymentReadWrapper)JSON.deserialize(responseBody, QBPaymentReadWrapper.class);
+            resonseMap.put('data', paymentData);
+        }else{
+            resonseMap.put('status','ERROR');
+            Logger log = new Logger('Error occured While Reading a Payment from QBO', 'QBPaymentService', 'Error', 'Apex');
+            log.logRecord.ExternalSystem__c = 'QuickBooks'; 
+            log.logRecord.ExternalReferenceCode__c = String.valueOf( response.getStatusCode() ); 
+            log.logRecord.ExternalSystemResult__c = responseBody; 
+            log.logRecord.ExternalSystemErrorCodes__c = 'https://developer.intuit.com/app/developer/qbo/docs/develop/troubleshooting/error-codes'; 
+            log.logRecord.ExternalSystemDocument__c = 'https://developer.intuit.com/app/developer/qbo/docs/get-started';
+            resonseMap.put('data', log);
+        }
+        return resonseMap;
+    }
+
     public class QBPaymentWrapper{
         public Decimal TotalAmt;
         private CustomerRef CustomerRef;

@@ -15,9 +15,7 @@
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "54.0",
     "packageAliases": {
-        "quickbooksonline": "0Ho0o000000k9nYCAQ",
-        "quickbooksonline@0.1.0-1": "04t0o000003bSmlAAE",
-        "quickbooksonline@0.1.0-2": "04t0o000003bSmqAAE",
-        "quickbooksonline@0.1.0-3": "04t0o000003bSn0AAE"
+        "quickbooksonline": "0Ho5j000000KyunCAC",
+        "quickbooksonline@0.1.0-2": "04t5j000000pO1JAAU"
     }
 }

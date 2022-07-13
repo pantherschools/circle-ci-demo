@@ -1,1 +1,3 @@
 sfdx force:data:soql:query -q "SELECT Id, Name, Rating, Phone, Industry FROM Account LIMIT 10" -u="b2b" -r=csv > account_records.csv
+sfdx force:data:tree:export -q "SELECT Name, BillingStreet, BillingCity, BillingState, BillingPostalCode, Phone, Website FROM Account WHERE BillingStreet != NULL AND BillingCity != NULL and BillingState != NULL" -d ./data -u="b2b"
+sfdx force:data:tree:import --sobjecttreefiles data/Account.json -u="b2b"
