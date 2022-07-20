@@ -6,8 +6,8 @@
             "package": "quickbooksonline",
             "versionName": "ver 0.1",
             "versionNumber": "0.1.0.NEXT",
-            "postInstallUrl": "https://expenser.com/post-install-instructions.html",
-            "releaseNotesUrl": "https://expenser.com/winter-2020-release-notes.html"
+            "postInstallUrl": "https://pantherschools.com/how-to-import-custom-metadata-records-in-salesforce/",
+            "releaseNotesUrl": "https://pantherschools.com/how-to-import-custom-metadata-records-in-salesforce/"
         }
     ],
     "name": "b2b",
@@ -16,6 +16,7 @@
     "sourceApiVersion": "54.0",
     "packageAliases": {
         "quickbooksonline": "0Ho5j000000KyunCAC",
-        "quickbooksonline@0.1.0-2": "04t5j000000pO1JAAU"
+        "quickbooksonline@0.1.0-2": "04t5j000000pO1JAAU",
+        "quickbooksonline@0.1.0-3": "04t5j000000pO1OAAU"
     }
 }

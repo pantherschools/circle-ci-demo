@@ -1,19 +1,19 @@
 #!/bin/sh
-PACKAGE_ID=04t5j000000pO1JAAU
+PACKAGE_ID=04t5j000000pO1OAAU
 PERMSET_NAME=System_Event_Permission_Set
 PERMGROUP_NAME=Scratch_Org_Demo
 
 while [ ! -n "$ORG_NAME"  ] 
 do
-	echo "❓ Please enter a name for your scratch org:"
+	echo "❓ Please enter a name for your scratch org: "
 	read ORG_NAME
 done
 
-#while [ ! -n "$USER_NAME"  ] 
-#do
-#	echo "❓ Please enter a username for your scratch org:"
-#	read USER_NAME
-#done
+while [ ! -n "$USER_NAME"  ] 
+do
+	echo "❓ Please enter a username for your scratch org:"
+	read USER_NAME
+done
 
 echo "🔄 Building your org, please wait..."
 #sfdx force:org:create -d 21 -s -t sandbox -f ./config/project-scratch.json -a ${ORG_NAME}

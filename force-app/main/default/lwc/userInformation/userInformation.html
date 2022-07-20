@@ -1,0 +1,52 @@
+<!--
+  @description       : 
+  @author            : Amit Singh
+  @group             : 
+  @last modified on  : 07-20-2022
+  @last modified by  : Amit Singh
+-->
+<template>
+   <lightning-card  variant="Narrow"  title="Hello" icon-name="standard:account">
+    <lightning-button-icon  icon-name="utility:down" variant="border-filled" alternative-text="Show More" slot="actions"></lightning-button-icon>
+    <div class="slds-p-horizontal_small">
+        <lightning-accordion allow-multiple-sections-open active-section-name="A" onsectiontoggle={handleSectionToggle} >
+            <lightning-accordion-section name="A" label="Accordion Title A">
+                <p>This is the content area for section A.</p>
+            </lightning-accordion-section>
+            <lightning-accordion-section name="B" label="Accordion Title B">
+                <p>This is the content area for section B.</p>
+            </lightning-accordion-section>
+            <lightning-accordion-section name="C" label="Accordion Title C">
+                <p>This is the content area for section C.</p>
+            </lightning-accordion-section>
+        </lightning-accordion>
+        <lightning-badge label="Alpha"></lightning-badge>
+        <lightning-avatar src="https://www.lightningdesignsystem.com/assets/images/avatar2.jpg"></lightning-avatar><!-- Basic -->
+        <lightning-avatar size="medium" src="https://www.lightningdesignsystem.com/assets/images/avatar2.jpg" initials="JD" fallback-icon-name="standard:person_account" ></lightning-avatar><!-- Avatar Sizes -->
+        <lightning-avatar variant="circle" src="https://www.lightningdesignsystem.com/assets/images/avatar2.jpg" initials="AW" fallback-icon-name="standard:person_account"></lightning-avatar><!-- Avatar Variants -->
+        <lightning-avatar src="https://www.lightningdesignsystem.com/assets/images/avatar2.jpg" initials="Sa" fallback-icon-name="standard:account" alternative-text="Salesforce" ></lightning-avatar><!-- Avatar Initials -->
+        <lightning-avatar src="https://www.lightningdesignsystem.com/assets/images/avatar2.jpg" initials="" fallback-icon-name="standard:account" alternative-text="Salesforce"></lightning-avatar><!-- Avatar Icons -->
+        <lightning-button-group>
+            <lightning-button label="Refresh"></lightning-button>
+            <lightning-button label="Edit"></lightning-button>
+            <lightning-button label="Save"></lightning-button>
+        </lightning-button-group>
+
+        <lightning-input-address
+            address-label="Address"
+            street-label="Street"
+            city-label="City"
+            country-label="Country"
+            province-label="Province"
+            postal-code-label="PostalCode"
+            street="121 Spear St."
+            city="San Francisco"
+            country="US"
+            province="CA"
+            postal-code="94105"
+            required
+            field-level-help="Help Text for inputAddress field" ></lightning-input-address>
+    </div>
+    <p slot="footer">Card Footer</p>
+   </lightning-card> 
+</template>
