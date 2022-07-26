@@ -67,7 +67,7 @@ jobs:
             path: ~/.pmdlog/pmd.log
             destination: pmd-log
         - store_artifacts:
-            path: ~/ci_app/.pmd/report.html
+            path: .pmd/report.html
 
   build:
     machine:
