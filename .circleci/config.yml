@@ -65,8 +65,7 @@ jobs:
               - ~/tmp/cache
         - store_artifacts:
             path: ~/.pmdlog/pmd.log
-        - store_test_results:
-            path: ~/test_results
+            destination: pmd-log
         - store_artifacts:
             path: .pmd/report.html
 
