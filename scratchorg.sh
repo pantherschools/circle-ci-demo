@@ -16,7 +16,8 @@ do
 done
 
 echo "🔄 Building your org, please wait..."
-#sfdx force:org:create -d 21 -s -t sandbox -f ./config/project-scratch.json -a ${ORG_NAME}
+#sfdx force:org:create -d 21 -s -t sandbox -f ./config/project-scratch.json -a ${ORG_NAME} username=${USER_NAME}
+#sfdx force:org:create -d 21 -s -t sandbox -f ./config/project-scratch.json -a jai-demo -u=testuser1@mycompany.org.jai
 sfdx force:org:create -f config/project-scratch.json -a ${ORG_NAME} -s -d 21 #-t sandbox
 
 if [ "$?" = "1" ] 

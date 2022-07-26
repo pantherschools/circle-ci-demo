@@ -1,28 +1,19 @@
 {
-  "orgName": "Salesforce.com",
-  "edition": "Enterprise",
-  "features": [
-        "Communities", 
-        "ServiceCloud", 
-        "Chatbot", 
-        "MultiCurrency" ,
-        "CascadeDelete",
-        "Knowledge",
-        "Sites",
-        "Communities",
-        "PersonAccounts",
-        "ForceComPlatform",
-        "StateAndCountryPicklist",
-        "Entitlements",
-        "IoT",
-        "LiveAgent"
-    ],
-  "settings": {
-      "omniChannelSettings": {
-          "enableOmniChannel": true
-      },
-      "caseSettings": {
-          "systemUserEmail": "sfdcpanther@outlook.com"
-      }
-  }
+    "orgName": "Acme Inc.",
+    "sourceOrg": "00D0o000001SFd9",
+    "features": ["Communities", "ServiceCloud", "Chatbot"],
+    "settings": {
+        "communitiesSettings": {
+            "enableNetworksEnabled": true
+        },
+        "mobileSettings": {
+            "enableS1EncryptedStoragePref2": true
+        },
+        "omniChannelSettings": {
+            "enableOmniChannel": true
+        },
+        "caseSettings": {
+            "systemUserEmail": "support@acme.com"
+        }
+    }
 }
