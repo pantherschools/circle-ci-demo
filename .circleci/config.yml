@@ -58,13 +58,11 @@ jobs:
             command: sfdx force:source:convert -d src-$CIRCLE_BUILD_NUM
         - run:
             name: Run PMD
-            command: ~/pmd-bin-6.4.0/bin/run.sh pmd -d src-$CIRCLE_BUILD_NUM -R .pmd/ruleset.xml -f html -cache ~/tmp/cache/pmd.cache -r ~/.pmdlog/pmd.log -reportfile .pmd/report.html
+            command: ~/pmd-bin-6.4.0/bin/run.sh pmd -d src-$CIRCLE_BUILD_NUM -R .pmd/ruleset.xml -f html -reportfile .pmd/report.html
         - save_cache:
             key: pmd_cache
             paths:
               - ~/tmp/cache
-        - store_artifacts:
-            path: ~/.pmdlog/pmd.log
         - store_artifacts:
             path: .pmd/report.html
 
