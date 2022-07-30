@@ -2,12 +2,11 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>QueueableDemo</members>
-        <members>TriggerHandler</members>
-        <members>TriggerHandler_Test</members>
         <name>ApexClass</name>
     </types>
     <types>
         <members>treeGridDemo</members>
+        <members>userInformation</members>
         <name>LightningComponentBundle</name>
     </types>
     <version>54.0</version>
