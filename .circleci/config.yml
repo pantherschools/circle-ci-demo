@@ -59,7 +59,7 @@ jobs:
             command: sfdx force:source:convert -d src-$CIRCLE_BUILD_NUM
         - run:
             name: Run PMD Duplicate Check
-            command: ~/pmd-bin-6.4.0/bin/run.sh cpd --minimum-tokens 100 --files src-$CIRCLE_BUILD_NUM --format xml outputfile .pmd/reportDuplicate.html
+            command: ~/pmd-bin-6.4.0/bin/run.sh cpd --minimum-tokens 100 --files src-$CIRCLE_BUILD_NUM --format xml
             
         - run:
             name: Run PMD
