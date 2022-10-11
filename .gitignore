@@ -8,6 +8,14 @@
 .localdevserver/
 deploy-options.json
 
+# GitIgnore
+.gitignore
+
+#Delta files
+./package
+./destructiveChanges
+.scripts/sfdx/*
+
 # LWC VSCode autocomplete
 **/lwc/jsconfig.json
 

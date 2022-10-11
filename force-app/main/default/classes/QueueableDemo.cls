@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : Amit Singh
  * @group             : 
- * @last modified on  : 07-30-2022
+ * @last modified on  : 07-31-2022
  * @last modified by  : Amit Singh
 **/
 public with sharing class QueueableDemo implements System.Queueable {
@@ -16,7 +16,7 @@ public with sharing class QueueableDemo implements System.Queueable {
         System.debug('Calling Queueable Method****** ');
         Future1.method1();
         Future1.method2();
-        Future1.method3();
+        //Future1.method3();
         System.debug('Calling Future Method****** ');
     }
 
