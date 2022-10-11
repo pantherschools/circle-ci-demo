@@ -20,6 +20,17 @@ general:
 
 jobs:
 
+  upload-to-codecov:
+      machine:
+        image: ubuntu-2004:202201-02
+      working_directory: ~/ci_app
+      steps:
+        - checkout
+        - run:
+            name: List All Files
+            command: |
+              ls -al
+        
   pmdcheck:
     machine:
       image: ubuntu-2004:202201-02
@@ -33,7 +44,6 @@ jobs:
             at: ~/ci_app
         - restore_cache:
             key: pmd_cache
-
         - run:
             name: Download SFDX CLI
             command: |
